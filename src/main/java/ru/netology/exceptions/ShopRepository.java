@@ -32,4 +32,26 @@ public class ShopRepository {
         }
         products = tmp;
     }
+
+    public Product findById(int id) {
+        for (Product product : products) {
+            if (product.getId() == id) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+    public void removeById(int id) {
+        try {
+            Product product = findById(id);
+            if (product == null) {
+                throw new NotFoundException("Element with id " + id + " not found");
+            }
+            remove(id);
+        } catch (NotFoundException e) {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+    }
 }

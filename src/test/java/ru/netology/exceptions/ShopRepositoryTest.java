@@ -1,5 +1,6 @@
 package ru.netology.exceptions;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,6 +9,70 @@ class ShopRepositoryTest {
 
     @Test
     void add() {
+        ShopRepository shopRepository = new ShopRepository();
+
+        Product product1 = new Product(1, "Хлеб", 100);
+        Product product2 = new Product(2, "Молоко", 150);
+
+        shopRepository.add(product1);
+        Product[] expected = {product1};
+        Assertions.assertArrayEquals(expected, shopRepository.findAll());
+        shopRepository.add(product2);
+        expected = new Product[]{product1, product2};
+        Assertions.assertArrayEquals(expected, shopRepository.findAll());
+    }
+
+    @Test
+    void shouldDeleteProductFromList() {
+        ShopRepository shopRepository = new ShopRepository();
+
+        Product product1 = new Product(1, "Хлеб", 100);
+        Product product2 = new Product(2, "Молоко", 150);
+
+        shopRepository.add(product1);
+        shopRepository.add(product2);
+
+        shopRepository.remove(1);
+        Product[] expected = {product2};
+
+        Assertions.assertArrayEquals(expected, shopRepository.findAll());
 
     }
+
+    @Test
+    void shouldDeleteProductById() {
+        ShopRepository shopRepository = new ShopRepository();
+
+        Product product1 = new Product(1, "Хлеб", 100);
+        Product product2 = new Product(2, "Молоко", 150);
+        Product product3 = new Product(3, "Масло", 200);
+
+        shopRepository.add(product1);
+        shopRepository.add(product2);
+        shopRepository.add(product3);
+
+        shopRepository.removeById(2);
+        Product[] expected = {product1, product3};
+
+        Assertions.assertArrayEquals(expected, shopRepository.findAll());
+
+    }
+
+    @Test
+    void shouldThrowException() {
+        ShopRepository shopRepository = new ShopRepository();
+
+        Product product1 = new Product(1, "Хлеб", 100);
+        Product product2 = new Product(2, "Молоко", 150);
+        Product product3 = new Product(3, "Масло", 200);
+
+        shopRepository.add(product1);
+        shopRepository.add(product2);
+        shopRepository.add(product3);
+
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            shopRepository.removeById(4);
+        });
+    }
+
 }
