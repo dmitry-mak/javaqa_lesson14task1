@@ -14,7 +14,7 @@ public class ShopRepository {
         return tmp;
     }
 
-    // Добавление
+    // Добавление нового продукта в репозиторий
     public void add(Product product) {
         for (Product p : products) {
             if (p.getId() == product.getId()) {
@@ -24,7 +24,7 @@ public class ShopRepository {
         products = addToArray(products, product);
     }
 
-    //    нахождение всех элементов массив
+    //    нахождение всех элементов массива
     public Product[] findAll() {
         return products;
     }
