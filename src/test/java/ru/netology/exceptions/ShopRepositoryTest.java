@@ -59,7 +59,7 @@ class ShopRepositoryTest {
     }
 
     @Test
-    void shouldThrowException() {
+    void shouldThrowNotFoundException() {
         ShopRepository shopRepository = new ShopRepository();
 
         Product product1 = new Product(1, "Хлеб", 100);
@@ -72,6 +72,22 @@ class ShopRepositoryTest {
 
         Assertions.assertThrows(NotFoundException.class, () -> {
             shopRepository.removeById(4);
+        });
+    }
+
+    @Test
+    void shouldReturnAlreadyExistsException() {
+        ShopRepository shopRepository = new ShopRepository();
+
+        Product product1 = new Product(1, "Хлеб", 100);
+        Product product2 = new Product(2, "Молоко", 150);
+        Product product3 = new Product(2, "Масло", 200);
+
+        shopRepository.add(product1);
+        shopRepository.add(product2);
+
+        Assertions.assertThrows(AlreadyExistsException.class, () -> {
+            shopRepository.add(product3);
         });
     }
 

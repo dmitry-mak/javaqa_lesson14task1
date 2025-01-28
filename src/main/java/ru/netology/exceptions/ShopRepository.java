@@ -4,7 +4,13 @@ public class ShopRepository {
 
     private Product[] products = new Product[0];
 
+    //    добавление нового элемента в массив
     private Product[] addToArray(Product[] current, Product product) {
+        for (Product p : current) {
+            if (p.getId() == product.getId()) {
+                throw new AlreadyExistsException("Element with id " + product.getId() + " already exists");
+            }
+        }
         Product[] tmp = new Product[current.length + 1];
         for (int i = 0; i < current.length; i++) {
             tmp[i] = current[i];
@@ -13,14 +19,17 @@ public class ShopRepository {
         return tmp;
     }
 
+    // Добавление
     public void add(Product product) {
         products = addToArray(products, product);
     }
 
+    //    нахождение всех элементов массив
     public Product[] findAll() {
         return products;
     }
 
+    // удаление элемента из массива
     public void remove(int id) {
         Product[] tmp = new Product[products.length - 1];
         int copyToIndex = 0;
@@ -33,6 +42,7 @@ public class ShopRepository {
         products = tmp;
     }
 
+    //    нахождение элемента массива по id
     public Product findById(int id) {
         for (Product product : products) {
             if (product.getId() == id) {
@@ -42,16 +52,14 @@ public class ShopRepository {
         return null;
     }
 
+    //    удаление из массива элемента по заданному id
     public void removeById(int id) {
-        try {
-            Product product = findById(id);
-            if (product == null) {
-                throw new NotFoundException("Element with id " + id + " not found");
-            }
-            remove(id);
-        } catch (NotFoundException e) {
-            System.out.println(e.getMessage());
-            throw e;
+        Product product = findById(id);
+        if (product == null) {
+            throw new NotFoundException(
+                    "Element with id " + id + " not found"
+            );
         }
+        remove(id);
     }
 }
