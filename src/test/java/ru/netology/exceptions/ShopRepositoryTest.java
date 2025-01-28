@@ -97,4 +97,23 @@ class ShopRepositoryTest {
         ShopRepository shopRepository = new ShopRepository();
         Assertions.assertThrows(NotFoundException.class, () -> shopRepository.removeById(1));
     }
+
+    //    должен возвращать весь список продуктов
+    @Test
+    void shouldReturnWholeProductList() {
+        ShopRepository shopRepository = new ShopRepository();
+
+        Product product1 = new Product(1, "Хлеб", 100);
+        Product product2 = new Product(2, "Молоко", 150);
+        Product product3 = new Product(3, "Масло", 200);
+
+        shopRepository.add(product1);
+        shopRepository.add(product2);
+        shopRepository.add(product3);
+
+        Product[] expected = {product1, product2, product3};
+
+        Assertions.assertArrayEquals(expected, shopRepository.findAll());
+
+    }
 }
