@@ -6,11 +6,6 @@ public class ShopRepository {
 
     //    добавление нового элемента в массив
     private Product[] addToArray(Product[] current, Product product) {
-        for (Product p : current) {
-            if (p.getId() == product.getId()) {
-                throw new AlreadyExistsException("Element with id " + product.getId() + " already exists");
-            }
-        }
         Product[] tmp = new Product[current.length + 1];
         for (int i = 0; i < current.length; i++) {
             tmp[i] = current[i];
@@ -21,6 +16,11 @@ public class ShopRepository {
 
     // Добавление
     public void add(Product product) {
+        for (Product p : products) {
+            if (p.getId() == product.getId()) {
+                throw new AlreadyExistsException("Element with id " + product.getId() + " already exists");
+            }
+        }
         products = addToArray(products, product);
     }
 

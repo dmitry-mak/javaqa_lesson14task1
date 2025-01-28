@@ -3,8 +3,6 @@ package ru.netology.exceptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ShopRepositoryTest {
 
     @Test
@@ -58,6 +56,7 @@ class ShopRepositoryTest {
 
     }
 
+    //    Удаление несуществующего элемента. Должен выкидывать NotFoundException
     @Test
     void shouldThrowNotFoundException() {
         ShopRepository shopRepository = new ShopRepository();
@@ -75,8 +74,9 @@ class ShopRepositoryTest {
         });
     }
 
+    //    Добавление элемента с уже существующим id. Должен выбрасывать AlreadyExistsException
     @Test
-    void shouldReturnAlreadyExistsException() {
+    void shouldThrowAlreadyExistsException() {
         ShopRepository shopRepository = new ShopRepository();
 
         Product product1 = new Product(1, "Хлеб", 100);
@@ -91,4 +91,10 @@ class ShopRepositoryTest {
         });
     }
 
+    //    Удаление элемента из пустого репозитория. Должен выбрасывать NotFoundException
+    @Test
+    void deleteElementFromEmptyArray() {
+        ShopRepository shopRepository = new ShopRepository();
+        Assertions.assertThrows(NotFoundException.class, () -> shopRepository.removeById(1));
+    }
 }
